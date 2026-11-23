@@ -1,0 +1,557 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Devis · Site NIR Export</title>
+<meta name="description" content="Devis pour le site de vente et d'export NIR Export, en 3 formules.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@1,6..96,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#141414;--ink-2:#3a3a3a;--muted:#706d67;--line:#e4e2dd;--soft:#f6f5f2;--red:#d90b14;--red-soft:#fdeced;--green:#0f8a4c;--paper:#fff;--bg:#e9e7e2}
+  *{box-sizing:border-box}
+  html{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{margin:0;background:var(--bg);color:var(--ink);font:400 14px/1.55 'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .serif{font-family:'Bodoni Moda',Georgia,serif;font-style:italic;font-weight:500}
+
+  .tools{position:sticky;top:0;z-index:10;background:#141414;color:#e9e7e2;font-size:13px}
+  .tools .in{max-width:900px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+  .tools a.back{color:#bbb;text-decoration:none}
+  .tools button{height:36px;padding:0 14px;border-radius:8px;border:0;background:var(--red);color:#fff;font:600 13px 'Inter',sans-serif;cursor:pointer}
+  .tools .tip{color:#ffd35c}
+
+  .doc{max-width:900px;margin:28px auto 60px;background:var(--paper);box-shadow:0 10px 40px rgba(0,0,0,.08);border-radius:6px}
+  .pad{padding:44px 52px}
+  [contenteditable=true]{outline:1px dashed transparent;border-radius:3px;transition:outline-color .15s}
+  [contenteditable=true]:hover{outline-color:#f0b400}
+  [contenteditable=true]:focus{outline:2px solid #f0b400;background:#fffbea}
+
+  /* en-tête */
+  .head{background:#0b0b0b;color:#f4f1ec;border-radius:6px 6px 0 0;display:flex;justify-content:space-between;align-items:flex-start;gap:24px;flex-wrap:wrap}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand img{height:34px}
+  .brand b{display:block;font-size:22px;letter-spacing:.06em}
+  .brand b i{font-family:'Bodoni Moda',serif;color:var(--red);font-weight:500}
+  .brand small{color:#a7a39b}
+  .num{text-align:right}
+  .num h1{margin:0;font-size:34px;letter-spacing:-.01em}
+  .num div{color:#a7a39b}
+  .num strong{color:#fff}
+
+  .intro{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:28px;border-bottom:1px solid var(--line)}
+  .lbl{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:8px}
+  .intro h2{margin:0 0 6px;font-size:20px;line-height:1.25}
+  .intro p{margin:0;color:var(--ink-2)}
+  .party b{display:block;font-size:15px}
+  .party span{display:block;color:var(--ink-2)}
+
+  .chips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:-6px}
+  .chip{background:var(--soft);border-radius:10px;padding:14px}
+  .chip b{display:block;font-size:17px}
+  .chip span{color:var(--muted);font-size:13px}
+
+  .ref{display:flex;gap:18px;align-items:center;background:#0b0b0b;color:#e9e7e2;border-radius:12px;padding:18px 20px;margin-top:22px;text-decoration:none}
+  .ref .ic{flex:none;width:44px;height:44px;border-radius:50%;background:var(--red);display:grid;place-items:center;font-weight:800}
+  .ref b{color:#fff}
+  .ref u{color:#ff8a8f;text-decoration:none;font-weight:600;white-space:nowrap}
+
+  h3.sec{font-size:24px;margin:0 0 6px;letter-spacing:-.01em}
+  .sec-sub{color:var(--muted);margin:0 0 22px}
+
+  .nego{background:#fff8e6;border:1px solid #f3dca0;border-radius:10px;padding:10px 14px;margin:-8px 0 22px;font-size:13.5px}
+  .gain-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .gain{border:1px solid var(--line);border-radius:12px;padding:18px 18px 16px;display:grid;grid-template-columns:42px 1fr;column-gap:14px}
+  .gain .ic{grid-row:span 2;width:42px;height:42px;border-radius:12px;background:var(--red-soft);display:grid;place-items:center}
+  .gain svg{width:21px;height:21px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .gain b{font-size:15.5px}
+  .gain p{margin:4px 0 0;color:var(--ink-2);font-size:13px}
+  .gain-inc{margin-top:12px;background:#0b0b0b;color:#e9e7e2;border-radius:10px;padding:12px 16px;font-size:13.5px}
+  .gain-inc b{color:#fff}
+  /* formules */
+  .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;align-items:stretch}
+  .plan{border:1.5px solid var(--line);border-radius:14px;padding:22px 20px;display:flex;flex-direction:column;position:relative;background:#fff;cursor:pointer;transition:border-color .2s,box-shadow .2s}
+  .plan:hover{border-color:#c9c6bf}
+  .plan.reco{border-color:var(--ink);box-shadow:0 14px 34px rgba(0,0,0,.1)}
+  .plan.picked{border-color:var(--red);box-shadow:0 0 0 3px var(--red-soft)}
+  .badge{position:absolute;top:-12px;left:20px;white-space:nowrap;background:var(--red);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:5px 10px;border-radius:999px}
+  .plan .k{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+  .plan h4{margin:4px 0 2px;font-size:22px}
+  .plan .tag{color:var(--ink-2);min-height:42px}
+  .price{margin:14px 0 4px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px}
+  .price b{font-size:40px;letter-spacing:-.03em;line-height:1;white-space:nowrap}
+  .price span{font-size:20px;font-weight:700}
+  .plus{font-weight:700;color:var(--red);font-size:16px!important;white-space:nowrap}
+  .note{font-size:12.5px;color:var(--muted);margin:2px 0 14px;min-height:38px}
+  .plan ul{list-style:none;margin:0;padding:14px 0 0;border-top:1px solid var(--line);display:grid;gap:8px;flex:1;align-content:start}
+  .plan li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px}
+  .plan li::before{content:"✓";flex:none;color:var(--green);font-weight:800}
+  .plan li.no{color:var(--muted)}
+  .plan li.no::before{content:"✕";color:#b3afa8}
+  .plan li.info{color:var(--muted);font-size:12.5px}
+  .plan li.info::before{content:"i";font:italic 700 12px Georgia,serif;width:14px;height:14px;border:1px solid #b3afa8;border-radius:50%;display:grid;place-items:center;color:#8f8b84;margin-top:2px}
+  .pick{margin-top:16px;display:flex;align-items:center;justify-content:center;gap:8px;height:40px;border-radius:8px;border:1.5px solid var(--line);font-weight:600;font-size:13px}
+  .plan.picked .pick{background:var(--red);border-color:var(--red);color:#fff}
+
+  /* options */
+  .opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .opt{border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+  .opt b{display:block}
+  .opt span{color:var(--muted);font-size:13px}
+  .opt em{font-style:normal;font-weight:800;white-space:nowrap;color:var(--green);order:-1;display:flex;gap:8px;align-items:center}
+  .opt em s{color:var(--muted);font-weight:500}
+  .opt b::before{content:"✓";display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:var(--green);color:#fff;font-size:11px;margin-right:8px;vertical-align:1px}
+  .opt{background:#f2faf5;border-color:#cfe9da}
+
+  /* comparatif */
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:center;vertical-align:middle}
+  th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);background:var(--soft)}
+  td:first-child,th:first-child{text-align:left}
+  td:first-child small{display:block;color:var(--muted)}
+  td.y{color:var(--green);font-weight:800}
+  td.n{color:#b3afa8}
+  tr.tot td{font-weight:700;background:#fffaf4}
+  tr.tot td small{font-weight:400;color:var(--muted);display:block}
+  th.reco,td.reco{background:#fbfbf9}
+
+  /* différences */
+  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .feat{background:var(--soft);border-radius:12px;padding:18px}
+  .feat .ic{width:36px;height:36px;border-radius:10px;background:#fff;display:grid;place-items:center;margin-bottom:10px}
+  .feat svg{width:19px;height:19px;stroke:var(--red);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+  .feat b{display:block;margin-bottom:4px}
+  .feat p{margin:0 0 10px;color:var(--ink-2);font-size:13px}
+  .feat small{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+
+  /* marché */
+  .market{display:grid;gap:8px}
+  .mrow{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:12px 16px;border:1px solid var(--line);border-radius:10px}
+  .mrow b{display:block}
+  .mrow span{color:var(--muted);font-size:13px}
+  .mrow em{font-style:normal;font-weight:800;white-space:nowrap}
+  .mrow.me{background:#0b0b0b;color:#fff;border-color:#0b0b0b}
+  .mrow.me span{color:#b9b5ad}
+  .mrow.me em{color:#ff6b72;font-size:18px}
+  .src{font-size:12px;color:var(--muted);margin-top:10px}
+
+  .notes{display:grid;gap:10px;font-size:13px;color:var(--ink-2)}
+  .notes p{margin:0}
+
+  .sign{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;border-top:2px solid var(--ink)}
+  .choice{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+  .choice label{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line);border-radius:8px;padding:8px 12px;font-weight:600;cursor:pointer}
+  .choice input{accent-color:var(--red);width:16px;height:16px}
+  .cond{font-size:12.5px;color:var(--ink-2);display:grid;gap:4px}
+  .box{border:1.5px dashed #bdb9b1;border-radius:12px;min-height:170px;padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+  .box b{font-size:15px}
+  .box span{color:var(--muted);font-size:12.5px}
+
+  .divider{height:1px;background:var(--line)}
+
+  /* onglets de formules (mobile) et barre du bas */
+  .ptabs,.mcomp,.mbar,.swipe{display:none}
+  @media screen and (max-width:820px){
+    body{font-size:15px;padding-bottom:84px}
+    .pad{padding:26px 18px}
+    .doc{margin:0;border-radius:0;box-shadow:none}
+    .head{border-radius:0;padding-top:26px;padding-bottom:26px}
+    .brand img{height:26px}.brand b{font-size:19px}
+    .num h1{font-size:28px}
+    .intro,.feats,.opts,.sign,.gain-grid{grid-template-columns:1fr}
+    .intro{gap:20px}
+    .chips{grid-template-columns:1fr 1fr;gap:8px}
+    .chip{padding:12px}
+    .num{text-align:left}
+    .ref{flex-wrap:wrap;gap:12px;padding:16px}
+    h3.sec{font-size:23px}
+    .tools .in{padding:8px 12px;flex-wrap:nowrap;height:50px}
+    .tools .back{font-size:12px;white-space:nowrap}
+    .tools .tip{display:none}
+    .tools .lg{display:none}
+    .tools button{height:34px;font-size:12px;padding:0 12px;white-space:nowrap}
+
+    /* formules : carrousel a balayer */
+    .ptabs{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--soft);border-radius:12px;padding:4px;margin-bottom:6px;position:sticky;top:50px;z-index:5;box-shadow:0 6px 16px rgba(0,0,0,.06)}
+    .ptabs button{border:0;background:none;height:42px;border-radius:9px;font:600 13px 'Inter',sans-serif;color:var(--muted);cursor:pointer;padding:0 4px;line-height:1.1}
+    .ptabs button[aria-selected=true]{background:#fff;color:var(--ink);box-shadow:0 1px 4px rgba(0,0,0,.12)}
+    .ptabs button .st{color:var(--red)}
+    .plans{position:relative;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;margin:0 -18px;padding:18px 18px 8px;scrollbar-width:none;align-items:flex-start;-webkit-overflow-scrolling:touch}
+    .plans::-webkit-scrollbar{display:none}
+    .plan{flex:0 0 86%;scroll-snap-align:center;padding:22px 18px}
+    .plan .tag,.note{min-height:0}
+    .plan li{font-size:14px}
+    .pick{height:48px;font-size:14px}
+    .swipe{display:block;text-align:center;color:var(--muted);font-size:12.5px;margin-top:4px}
+    .nego{margin:-6px 0 16px}
+
+    /* comparatif : une formule a la fois */
+    .tablewrap{display:none}
+    .mcomp{display:block}
+    .mcomp dl{margin:10px 0 0;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+    .mcomp dl div{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 14px;border-top:1px solid var(--line)}
+    .mcomp dl div:first-child{border-top:0}
+    .mcomp dt{font-size:14px}
+    .mcomp dt small{display:block;color:var(--muted);font-size:12px}
+    .mcomp dd{margin:0;text-align:right;font-weight:600;font-size:14px;max-width:50%}
+    .mcomp dd small{display:block;font-weight:400;color:var(--muted);font-size:12px}
+    .mcomp dd.y,.mcomp dd.n{white-space:nowrap}
+    .mcomp dd.y{color:var(--green)}
+    .mcomp dd.n{color:#b3afa8;font-weight:500}
+    .mcomp dl div.tot{background:#fffaf4}
+    .mcomp .ptabs{position:static;box-shadow:none}
+
+    .feats{gap:8px}
+    .feat{padding:14px;display:grid;grid-template-columns:36px 1fr;column-gap:12px}
+    .feat .ic{grid-row:span 3;margin:0}
+    .feat p{margin:2px 0 6px}
+    .gain{padding:16px}
+    .choice label{flex:1 1 100%;height:48px;font-size:15px}
+    .box{min-height:150px}
+
+    .mbar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 14px calc(10px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(0,0,0,.08)}
+    .mbar div{flex:1;line-height:1.25;min-width:0}
+    .mbar small{display:block;color:var(--muted);font-size:12px}
+    .mbar b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+    .mbar b em{font-style:normal;color:var(--red)}
+    .mbar button{flex:none;height:48px;padding:0 18px;border-radius:12px;border:0;background:var(--red);color:#fff;font:700 14px 'Inter',sans-serif;cursor:pointer}
+    .mbar button.done{background:var(--green)}
+  }
+
+  @page{size:A4;margin:12mm}
+  @media print{
+    body{background:#fff;font-size:12px}
+    .tools,.no-print,.ptabs,.mcomp,.mbar,.swipe{display:none!important}
+    .doc{margin:0;box-shadow:none;max-width:none}
+    .pad{padding:22px 4px}
+    .head{border-radius:8px;padding:22px 24px}
+    .plan,.feat,.mrow,.opt,tr,.sign,.ref{break-inside:avoid}
+    .plan{padding:16px 14px}.plan li{font-size:11.5px}.price b{font-size:32px}.feat p{font-size:11.5px}
+    .chips .chip{padding:10px}
+    .page-break{break-before:page}
+    h3.sec,.sec-sub{break-after:avoid}
+    .feats{break-before:avoid}
+    .lbl{break-after:avoid}
+    .optwrap{break-inside:avoid}
+    .gain{break-inside:avoid}.gains{padding-top:6px}
+    .chips{display:none}
+    .ref{margin-top:0}
+    .gain{padding:12px}.gain p{font-size:11px}
+    .plan .tag,.note{min-height:0}
+    .plan ul{gap:5px;padding-top:10px}.plan li{font-size:10.5px}
+    .nego{margin:0 0 14px;padding:8px 12px;font-size:12px}
+    .badge{top:-10px}
+    .badge{left:12px;font-size:9.5px}
+    .pick{display:none}
+    .plan{cursor:default}
+    [contenteditable]{outline:none!important;background:none!important}
+    a{text-decoration:none}
+  }
+</style>
+</head>
+<body>
+
+<div class="tools">
+  <div class="in">
+    <a class="back" href="index.html">← Retour aux propositions</a>
+    <span class="tip" id="tip" hidden>Mode édition : cliquez sur un texte pour le modifier, puis imprimez en PDF.</span>
+    <button type="button" onclick="print()"><span class="lg">Imprimer / </span>Enregistrer en PDF</button>
+  </div>
+</div>
+
+<article class="doc" id="doc">
+
+  <header class="head pad">
+    <div class="brand">
+      <img src="assets/img/car-silhouette.png" alt="">
+      <div><b>NIR <i>EXPORT</i></b><small>Vente de véhicules · professionnels & particuliers</small></div>
+    </div>
+    <div class="num">
+      <h1>Devis</h1>
+      <div>N° <strong data-e>2026-NIR-001</strong></div>
+      <div>Émis le <strong data-e>23 novembre 2026</strong></div>
+      <div>Valable <strong data-e>30 jours</strong></div>
+    </div>
+  </header>
+
+  <section class="pad intro">
+    <div>
+      <div class="lbl">Proposition</div>
+      <h2 data-e>Votre site de vente et d'export, avec espace d'administration, en 3 formules au choix.</h2>
+      <p data-e>Sur la base des maquettes présentées : catalogue, fiches véhicules avec galerie photos, réservation WhatsApp et espace admin pour tout gérer vous-même.</p>
+    </div>
+    <div class="party">
+      <div class="lbl">Prestataires</div>
+      <b data-e>Amine H & Ghani Z</b>
+      <span data-e>Développeurs web freelances</span>
+      <span data-e data-opt>Votre e-mail</span>
+      <span data-e data-opt>Votre téléphone</span>
+      <span data-e data-opt>SIRET : à compléter</span>
+    </div>
+    <div class="party">
+      <div class="lbl">Client</div>
+      <b data-e>NIR EXPORT</b>
+      <span data-e data-opt>À l'attention de : M. ……………, Gérant</span>
+      <span data-e data-opt>Adresse : à compléter</span>
+      <span data-e>+33 6 14 93 32 18</span>
+      <span data-e>sasnirauto@gmail.com</span>
+    </div>
+  </section>
+
+  <section class="pad" style="padding-bottom:0">
+    <div class="chips">
+      <div class="chip"><b>3 designs</b><span>au choix, déjà maquettés</span></div>
+      <div class="chip"><b>Fiches véhicules</b><span>galerie photos complète</span></div>
+      <div class="chip"><b>Espace admin</b><span>stock, rendez-vous, clients</span></div>
+      <div class="chip"><b>100 % mobile</b><span>smartphone, tablette, PC</span></div>
+    </div>
+    <a class="ref" href="https://deliaautomobiles.fr/" target="_blank" rel="noopener">
+      <span class="ic">✓</span>
+      <span><b>Déjà réalisé : DELIA Automobiles</b>, site de vente et d'export de véhicules avec catalogue, fiches et espace d'administration. Même savoir-faire, adapté à NIR Export.</span>
+      <u>deliaautomobiles.fr →</u>
+    </a>
+  </section>
+
+  <section class="pad gains">
+    <h3 class="sec">Ce que le site va vous apporter</h3>
+    <p class="sec-sub">Plus qu'une vitrine : un outil de travail au quotidien.</p>
+    <div class="gain-grid">
+      <div class="gain"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></div><b>Plus de clients</b><p>Votre stock visible 24 h/24 sur Google et partageable en un clic sur WhatsApp et Facebook. Chaque visiteur peut vous contacter directement depuis la fiche du véhicule.</p></div>
+      <div class="gain"><div class="ic"><svg viewBox="0 0 24 24"><path d="M5 17h14M3 13l2-6h14l2 6v4h-2M3 13v4h2M3 13h18"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/></svg></div><b>Gestion facile du stock</b><p>Ajoutez un véhicule en 2 minutes depuis votre téléphone, changez un prix ou passez-le en « Réservé » ou « Vendu » : le site se met à jour tout seul.</p></div>
+      <div class="gain"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4M8 14h3v3H8z"/></svg></div><b>Gestion des rendez-vous</b><p>Visites, essais, remises de clés : vos rendez-vous clients dans un agenda simple, avec le véhicule concerné et un rappel.</p></div>
+      <div class="gain"><div class="ic"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"/><path d="M9 13h6M9 16h4"/></svg></div><b>Dossiers clients</b><p>Pour chaque client : ses coordonnées, ses demandes, le véhicule acheté et ses documents, au même endroit. Plus besoin de chercher dans WhatsApp.</p></div>
+    </div>
+    <div class="gain-inc">✓ Tout cela est compris dans la formule <b>Complet + Sérénité</b></div>
+  </section>
+
+  <section class="pad page-break">
+    <h3 class="sec">Choisissez votre formule</h3>
+    <p class="sec-sub no-print">Cliquez sur une formule pour la sélectionner, elle sera cochée dans le « Bon pour accord ».</p>
+    <p class="nego">💬 <b>Les prix sont négociables.</b> On adapte la formule à votre activité et à votre budget : parlons-en ensemble.</p>
+
+    <div class="ptabs" id="ptabs" role="tablist" aria-label="Formules"></div>
+    <div class="plans" id="plans">
+      <div class="plan" data-plan="Vitrine">
+        <div class="k">Formule 1</div>
+        <h4>Vitrine</h4>
+        <div class="tag">Être visible en ligne, simplement</div>
+        <div class="price"><b data-e>390</b><span>€</span></div>
+        <div class="note" data-e>Paiement unique. Sans abonnement · livré en 15 jours</div>
+        <ul>
+          <li>Site 1 page : présentation, véhicules du moment, vos annonces, contact</li>
+          <li>Design au choix parmi les 3 maquettes</li>
+          <li>Bouton WhatsApp + appel + mail</li>
+          <li>Lien vers votre page Facebook</li>
+          <li>Mise en ligne + nom de domaine configuré</li>
+          <li class="no">Pas de fiches véhicules ni galerie</li>
+          <li class="no">Pas d'espace d'administration</li>
+          <li class="info">Hébergement à votre charge · modifications : 35 € l'intervention</li>
+        </ul>
+        <div class="pick no-print">Choisir cette formule</div>
+      </div>
+      <div class="plan reco" data-plan="Complet + Sérénité">
+        <span class="badge">★ Recommandé · 6 mois offerts</span>
+        <div class="k">Formule 2</div>
+        <h4>Complet + Sérénité</h4>
+        <div class="tag">Le site complet, hébergé et entretenu pour vous</div>
+        <div class="price"><b data-e>1 490</b><span>€</span><span class="plus" data-e>+ 35 € / mois</span></div>
+        <div class="note" data-e>6 premiers mois offerts · 200 € de moins sur la création</div>
+        <ul>
+          <li>Tout le contenu de la formule « Site complet »</li>
+          <li><span><b>Gestion des rendez-vous clients</b> : visites, essais, remises de clés</span></li>
+          <li><span><b>Dossiers clients</b> : documents, historique d'achat, suivi</span></li>
+          <li>6 mois de maintenance offerts après la mise en ligne</li>
+          <li>Hébergement, nom de domaine (à votre nom) et HTTPS : on s'occupe de tout</li>
+          <li>Sauvegarde automatique des données et des photos</li>
+          <li>Mises à jour de sécurité et surveillance</li>
+          <li>1 h de modifications par mois (textes, photos, réglages)</li>
+          <li>Support prioritaire par WhatsApp, réponse sous 48 h</li>
+          <li>Corrections gratuites toute la durée du contrat</li>
+          <li class="info">35 €/mois facturés à partir du 7e mois · engagement de 12 mois à compter de cette date</li>
+        </ul>
+        <div class="pick no-print">Choisir cette formule</div>
+      </div>
+      <div class="plan" data-plan="Site complet">
+        <div class="k">Formule 3</div>
+        <h4>Site complet</h4>
+        <div class="tag">Tout le site + espace admin · sans maintenance</div>
+        <div class="price"><b data-e>1 690</b><span>€</span></div>
+        <div class="note" data-e>Paiement unique. Vous êtes autonome · livré en 1 mois</div>
+        <ul>
+          <li>Tout le site : accueil, catalogue filtrable, FAQ, contact</li>
+          <li>Fiches véhicules avec galerie photos et plein écran</li>
+          <li>Espace admin : véhicules, photos, prix, statuts, demandes clients</li>
+          <li>Ajout d'un véhicule depuis votre visuel Facebook ou un PDF</li>
+          <li>WhatsApp pré-rédigé avec le véhicule et le prix</li>
+          <li>Formation à l'espace admin (1 h)</li>
+          <li>Corrections gratuites pendant 1 mois</li>
+          <li class="info">Serveur et nom de domaine à votre charge · modifications : 35 € l'intervention</li>
+        </ul>
+        <div class="pick no-print">Choisir cette formule</div>
+      </div>
+    </div>
+    <div class="swipe">← Balayez pour voir les autres formules →</div>
+  </section>
+
+  <section class="pad" style="padding-top:0">
+    <div class="optwrap">
+    <div class="lbl">Offert avec Complet + Sérénité et Site complet</div>
+    <div class="opts">
+      <div class="opt"><div><b>Site en anglais et en arabe</b><span>Traduction et mise en page arabe (de droite à gauche)</span></div><em><s>350 €</s> Offert</em></div>
+      <div class="opt"><div><b>Logo en haute définition</b><span>Votre logo redessiné en vectoriel, pour le site et l'impression</span></div><em><s>90 €</s> Offert</em></div>
+      <div class="opt"><div><b>Mise en ligne du stock</b><span>On saisit pour vous vos véhicules actuels, photos comprises</span></div><em><s>15 €/véhicule</s> Offert</em></div>
+    </div>
+    </div>
+  </section>
+
+  <section class="pad" style="padding-top:8px">
+    <h3 class="sec">Comparatif des formules</h3>
+    <p class="sec-sub">Ce que chaque formule comprend, et ce qu'elle coûte vraiment sur la durée.</p>
+    <div class="tablewrap">
+    <table>
+      <thead><tr><th>Prestation</th><th>Vitrine</th><th class="reco">Complet + Sérénité</th><th>Site complet</th></tr></thead>
+      <tbody>
+        <tr><td>Design au choix, 100 % mobile</td><td class="y">✓</td><td class="y reco">✓</td><td class="y">✓</td></tr>
+        <tr><td>Pages du site<small>Accueil, catalogue, fiches, FAQ, contact…</small></td><td>1 page</td><td class="reco">Site complet</td><td>Site complet</td></tr>
+        <tr><td>Catalogue filtrable et fiches véhicules</td><td class="n">✕</td><td class="y reco">✓</td><td class="y">✓</td></tr>
+        <tr><td>Galerie photos + plein écran</td><td class="n">✕</td><td class="y reco">✓</td><td class="y">✓</td></tr>
+        <tr><td>Espace d'administration<small>Véhicules, photos, statuts, demandes</small></td><td class="n">✕</td><td class="y reco">✓</td><td class="y">✓</td></tr>
+        <tr><td>Gestion facile du stock<small>Ajout, prix, statuts, depuis le téléphone</small></td><td class="n">✕</td><td class="y reco">✓</td><td class="y">✓</td></tr><tr><td>Gestion des rendez-vous clients</td><td class="n">✕</td><td class="y reco">✓</td><td class="n">✕</td></tr><tr><td>Dossiers clients<small>Documents, historique, suivi</small></td><td class="n">✕</td><td class="y reco">✓</td><td class="n">✕</td></tr><tr><td>WhatsApp</td><td>Bouton simple</td><td class="reco">Avec le véhicule et le prix</td><td>Avec le véhicule et le prix</td></tr>
+        <tr><td>Hébergement et nom de domaine</td><td>À votre charge</td><td class="reco"><b>Inclus</b></td><td>À votre charge</td></tr>
+        <tr><td>Sauvegardes et mises à jour de sécurité</td><td class="n">✕</td><td class="y reco">✓</td><td class="n">✕</td></tr>
+        <tr><td>Modifications incluses</td><td class="n">✕</td><td class="reco">1 h / mois</td><td class="n">✕</td></tr>
+        <tr><td>Garantie corrections</td><td>1 mois</td><td class="reco">Toute la durée</td><td>1 mois</td></tr>
+        <tr class="tot"><td>Coût total la 1re année</td><td>390 €<small>+ hébergement à votre charge</small></td><td class="reco">1 700 €<small>1 490 + 6 mois à 35 €, tout compris</small></td><td>1 690 €<small>+ serveur et domaine à votre charge</small></td></tr>
+        <tr class="tot"><td>Les années suivantes</td><td>35 € / intervention<small>d'1 h, seulement si vous demandez une modification</small></td><td class="reco">35 €/mois<small>tout compris, sans surprise</small></td><td>35 € / intervention<small>d'1 h, seulement si vous demandez une modification</small></td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="mcomp" id="mcomp"><div class="ptabs" id="ctabs" role="tablist" aria-label="Comparer"></div><dl id="mlist"></dl></div>
+  </section>
+
+  <section class="pad" style="padding-top:0">
+    <h3 class="sec">Ce qui fait la différence</h3>
+    <p class="sec-sub">Les fonctions que vous avez vues dans les maquettes.</p>
+    <div class="feats">
+      <div class="feat"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/></svg></div><b>Toutes les photos</b><p>Chaque véhicule a sa fiche : extérieur, intérieur, compteur, plein écran et balayage au doigt.</p><small>Sérénité & Site complet</small></div>
+      <div class="feat"><div class="ic"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><b>WhatsApp en un clic</b><p>Le message est déjà écrit avec le modèle et le prix : le client n'a plus qu'à l'envoyer.</p><small>Sérénité & Site complet</small></div>
+      <div class="feat"><div class="ic"><svg viewBox="0 0 24 24"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M12 18v-6M9 15l3-3 3 3"/></svg></div><b>Ajout depuis vos annonces</b><p>Déposez le visuel Facebook ou le PDF du véhicule : les champs se remplissent tout seuls.</p><small>Sérénité & Site complet</small></div>
+      <div class="feat"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></div><b>Arrivages et réservations</b><p>Statuts « Disponible », « Prochain arrivage », « Réservé », « Vendu » changés en un clic.</p><small>Sérénité & Site complet</small></div>
+      <div class="feat"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.5 3.4-5.5 6.5-5.5s5.7 2 6.5 5.5M16 4.5a3.5 3.5 0 0 1 0 7M18.5 14.8c1.6.8 2.6 2.6 3 5.2"/></svg></div><b>Demandes centralisées</b><p>Formulaire, appels et WhatsApp : toutes les demandes clients au même endroit, avec leur suivi.</p><small>Sérénité & Site complet</small></div>
+      <div class="feat"><div class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></svg></div><b>Confiance</b><p>Prix HT clairs, « dossier export inclus », badges « Contrôlé » et « Réservé » : le client sait à quoi s'attendre.</p><small>Toutes formules</small></div>
+    </div>
+  </section>
+
+
+  <section class="pad notes" style="padding-top:0">
+    <p>📌 <b>Hébergement :</b> Vitrine et Site complet : l'hébergement et le nom de domaine sont à votre charge, à votre nom. Complet + Sérénité : c'est nous qui nous en occupons, et le nom de domaine reste à votre nom.</p>
+    <p>📌 <b>Hors maintenance :</b> formules Vitrine et Site complet, chaque modification demandée après la période de garantie est facturée 35 € l'intervention d'1 h. Rien à payer si vous ne demandez rien.</p>
+    <p>📌 <b>Propriété :</b> le site et son code vous appartiennent après le paiement complet de la création.</p>
+    <p>📌 <b>Contenus :</b> vous fournissez les photos et les informations des véhicules ; les textes du site sont rédigés avec vous.</p>
+  </section>
+
+  <section class="pad sign">
+    <div>
+      <div class="lbl">Formule retenue</div>
+      <div class="choice" id="choice">
+        <label><input type="checkbox" value="Vitrine">Vitrine</label>
+        <label><input type="checkbox" value="Complet + Sérénité">Complet + Sérénité</label>
+        <label><input type="checkbox" value="Site complet">Site complet</label>
+      </div>
+      <div class="cond">
+        <div><b>Conditions :</b> acompte de 40 % à la commande · solde à la mise en ligne.</div>
+        <div><b>Maintenance (Complet + Sérénité) :</b> 6 premiers mois offerts, puis 35 €/mois à partir du 7e mois.</div>
+        <div>Prix négociables · devis gratuit, valable 30 jours · TVA non applicable, art. 293 B du CGI.</div>
+      </div>
+    </div>
+    <div class="box">
+      <div><b>Bon pour accord</b><br><span>Mention « Bon pour accord », date, signature et cachet</span></div>
+      <span>Date : ……… / ……… / 2026</span>
+    </div>
+  </section>
+
+</article>
+
+<div class="mbar" id="mbar"><div><small>Formule affichée</small><b id="mbName"></b></div><button type="button" id="mbBtn">Je choisis</button></div>
+
+<script>
+  // Édition : ouvrir devis.html?edit=1 pour modifier les textes avant d'imprimer.
+  const editing = new URLSearchParams(location.search).has('edit');
+  if (editing) {
+    document.getElementById('tip').hidden = false;
+    document.querySelectorAll('[data-e]').forEach(el => el.contentEditable = 'true');
+  } else {
+    // côté client : on masque les lignes encore « à compléter »
+    document.querySelectorAll('[data-opt]').forEach(el => {
+      if (/Votre e-mail|Votre téléphone|à compléter|……/.test(el.textContent)) el.remove();
+    });
+  }
+  // choix de formule : la carte et la case « Formule retenue » restent synchronisées
+  const plans = [...document.querySelectorAll('.plan')];
+  const boxes = [...document.querySelectorAll('#choice input')];
+  let picked = "";
+  let pick = function (name) {
+    plans.forEach(p => p.classList.toggle('picked', p.dataset.plan === name));
+    boxes.forEach(b => b.checked = b.value === name);
+    plans.forEach(p => p.querySelector('.pick').textContent = p.dataset.plan === name ? '✓ Formule choisie' : 'Choisir cette formule');
+  };
+  plans.forEach(p => p.addEventListener('click', e => { if (e.target.closest('[contenteditable=true]')) return; pick(p.dataset.plan); }));
+  boxes.forEach(b => b.addEventListener('change', () => pick(b.checked ? b.value : '')));
+
+  // ----- mobile : carrousel, onglets, comparatif et barre du bas -----
+  const names = plans.map(p => p.dataset.plan);
+  const short = { 'Vitrine': 'Vitrine', 'Complet + Sérénité': 'Sérénité <span class="st">★</span>', 'Site complet': 'Complet' };
+  const price = p => p.querySelector('.price b').textContent.trim() + ' €';
+  const reco = Math.max(0, plans.findIndex(p => p.classList.contains('reco')));
+  let cur = reco;
+  const tabsHTML = names.map((n, i) => `<button type="button" role="tab" data-i="${i}">${short[n] || n}</button>`).join('');
+  document.getElementById('ptabs').innerHTML = tabsHTML;
+  document.getElementById('ctabs').innerHTML = tabsHTML;
+  const strip = document.getElementById('plans');
+  const rows = [...document.querySelectorAll('.tablewrap tbody tr')];
+  function renderComp() {
+    document.getElementById('mlist').innerHTML = rows.map(tr => {
+      const c = tr.children, cell = c[cur + 1];
+      const cls = cell.classList.contains('y') ? 'y' : cell.classList.contains('n') ? 'n' : '';
+      const val = cls === 'y' ? '✓ Inclus' : cls === 'n' ? '✕ Non inclus' : cell.innerHTML;
+      return `<div class="${tr.classList.contains('tot') ? 'tot' : ''}"><dt>${c[0].innerHTML}</dt><dd class="${cls}">${val}</dd></div>`;
+    }).join('');
+  }
+  function sync() {
+    document.querySelectorAll('.ptabs button').forEach(b => b.setAttribute('aria-selected', +b.dataset.i === cur));
+    document.getElementById('mbName').innerHTML = `${names[cur]} · <em>${price(plans[cur])}</em>`;
+    const btn = document.getElementById('mbBtn'), done = picked === names[cur];
+    btn.textContent = done ? '✓ Choisie · signer' : 'Je choisis';
+    btn.classList.toggle('done', done);
+    renderComp();
+  }
+  function go(i, smooth) {
+    cur = i;
+    strip.scrollTo({ left: plans[i].offsetLeft - (strip.clientWidth - plans[i].offsetWidth) / 2, behavior: 'auto' });
+    sync();
+  }
+  document.querySelectorAll('.ptabs button').forEach(b => b.addEventListener('click', () => go(+b.dataset.i, !b.closest('#ctabs'))));
+  let t;
+  strip.addEventListener('scroll', () => {
+    clearTimeout(t);
+    t = setTimeout(() => {
+      const mid = strip.scrollLeft + strip.clientWidth / 2;
+      let best = 0, d = 1e9;
+      plans.forEach((p, i) => { const c = p.offsetLeft + p.offsetWidth / 2; if (Math.abs(c - mid) < d) { d = Math.abs(c - mid); best = i; } });
+      if (best !== cur) { cur = best; sync(); }
+    }, 60);
+  }, { passive: true });
+  document.getElementById('mbBtn').addEventListener('click', () => {
+    if (picked === names[cur]) document.querySelector('.sign').scrollIntoView({ behavior: 'smooth' });
+    else pick(names[cur]);
+  });
+  const basePick = pick;
+  pick = name => { picked = name; basePick(name); sync(); };
+  if (matchMedia('(max-width:820px)').matches) requestAnimationFrame(() => go(reco, false));
+  sync();
+</script>
+</body>
+</html>

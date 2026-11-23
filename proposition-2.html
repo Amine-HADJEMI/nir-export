@@ -103,6 +103,7 @@
   .card .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
   .card .acts .btn{height:42px;font-size:14px}
   .badge-inc{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#0f7a45;background:#e8f6ee;border-radius:6px;padding:4px 8px;margin-top:10px}
+  .mbar{display:none}
   .empty{grid-column:1/-1;text-align:center;padding:48px;border:1px dashed var(--line);border-radius:16px;color:var(--muted)}
 
   .included{background:var(--bg-2)}
@@ -156,8 +157,15 @@
     .finder{grid-template-columns:1fr}
     .finder label+label{border-left:0;border-top:1px solid var(--line)}
     .grid{grid-template-columns:1fr}
-    .trust .wrap{grid-template-columns:1fr}
-    .trust div+div{border-left:0;border-top:1px solid var(--line)}
+    .trust .wrap{grid-template-columns:1fr 1fr;padding:0}
+    .trust div{flex-direction:column;align-items:flex-start;gap:8px;padding:16px;border:0!important;font-size:13px}
+    .trust div:nth-child(even){border-left:1px solid var(--line)!important}
+    .trust div:nth-child(n+3){border-top:1px solid var(--line)!important}
+    body{padding-bottom:76px}
+    .mbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:40;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+    .mbar .btn{height:48px}
+    .hero{padding-top:32px}
+    .card .acts .btn{height:46px}
     .cta{padding:32px 22px}
     section.block{padding:72px 0}
     .nav .btn{display:none}
@@ -298,6 +306,8 @@
     <span>© 2026 NIR Export</span>
   </div>
 </footer>
+
+<div class="mbar"><a class="btn btn-ink" href="tel:+33614933218">Appeler</a><a class="btn btn-red" href="#" data-wa>WhatsApp</a></div>
 
 <script src="assets/data.js"></script>
 <script>
