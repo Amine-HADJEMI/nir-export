@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NIR Export · Arrivages</title>
+<meta name="description" content="NIR Export : les prochains arrivages, réservables sur WhatsApp. Prix HT, dossier export inclus.">
+<link rel="icon" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#f2efe9; --paper-2:#e8e4dc; --ink:#0d0d0d; --muted:#6b675f; --line:#d6d1c6;
+    --red:#e3141c; --wa:#1fb855;
+    --disp:'Anton', Impact, sans-serif; --sans:'Inter Tight', system-ui, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1280px;margin:0 auto;padding:0 24px}
+  .disp{font-family:var(--disp);font-weight:400;text-transform:uppercase;letter-spacing:.005em;line-height:.92;margin:0}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:54px;padding:0 24px;border-radius:4px;font:700 15px/1 var(--sans);text-transform:uppercase;letter-spacing:.04em;transition:transform .15s,background .2s}
+  .btn:active{transform:scale(.98)}
+  .btn svg{width:20px;height:20px;fill:currentColor}
+  .btn-wa{background:var(--wa);color:#fff}.btn-wa:hover{background:#18a149}
+  .btn-ink{background:var(--ink);color:#fff}.btn-ink:hover{background:#2a2a2a}
+  .btn-out{border:2px solid var(--ink)}.btn-out:hover{background:var(--ink);color:var(--paper)}
+
+  /* ticker */
+  .ticker{background:var(--red);color:#fff;overflow:hidden;white-space:nowrap;height:38px;display:flex;align-items:center}
+  .ticker .track{display:inline-flex;gap:48px;animation:tk 38s linear infinite;font:400 15px/1 var(--disp);letter-spacing:.06em;text-transform:uppercase;padding-left:48px}
+  .ticker span::after{content:"✦";margin-left:48px;opacity:.6}
+  @keyframes tk{to{transform:translateX(-50%)}}
+
+  header .wrap{display:flex;justify-content:space-between;align-items:center;height:78px;border-bottom:2px solid var(--ink)}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo img{height:28px}
+  .logo b{font:400 30px/1 var(--disp);letter-spacing:.02em}
+  .logo b i{font-style:normal;color:var(--red)}
+  header nav{display:flex;gap:28px;font-weight:600;font-size:15px;text-transform:uppercase;letter-spacing:.04em}
+  header nav a:hover{color:var(--red)}
+  header .btn{height:44px;padding:0 18px;font-size:13px}
+
+  /* hero */
+  .hero{padding:40px 0 64px}
+  .hero-top{display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin-bottom:16px}
+  .hero-top .live{display:inline-flex;align-items:center;gap:8px;color:var(--red)}
+  .hero-top .live::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--red)}
+  .hero h1{font-size:clamp(64px,13.5vw,196px)}
+  .hero h1 .o{color:transparent;-webkit-text-stroke:2px var(--ink)}
+  .hero-grid{display:grid;grid-template-columns:1.55fr 1fr;gap:28px;margin-top:28px;align-items:stretch}
+  .hero-photo{position:relative;border-radius:6px;overflow:hidden;min-height:440px;background:#ccc}
+  .hero-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .hero-photo .stamp{position:absolute;left:18px;top:18px;background:var(--paper);padding:10px 14px;border-radius:3px;font:400 20px/1 var(--disp);text-transform:uppercase}
+  .hero-side{display:flex;flex-direction:column;justify-content:space-between;gap:24px;border-top:2px solid var(--ink);padding-top:20px}
+  .hero-side h2{font-size:clamp(38px,4vw,58px)}
+  .hero-side .sub{color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;font-size:14px;margin-top:10px}
+  .specs{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line)}
+  .specs div{padding:14px 0;border-bottom:1px solid var(--line)}
+  .specs div:nth-child(odd){padding-right:12px}
+  .specs dt{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+  .specs dd{margin:2px 0 0;font:400 26px/1.1 var(--disp)}
+  .price-big{display:flex;align-items:baseline;gap:10px}
+  .price-big b{font:400 clamp(56px,6vw,84px)/1 var(--disp);color:var(--red)}
+  .price-big span{font-weight:700;font-size:18px}
+  .price-big small{display:block;color:var(--muted);font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+  .hero-side .ctas{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+  /* list */
+  section.block{padding:88px 0;border-top:2px solid var(--ink)}
+  .sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:36px;flex-wrap:wrap}
+  .sec-head h2{font-size:clamp(46px,7vw,104px)}
+  .sec-head p{max-width:360px;color:var(--muted);margin:0;font-weight:500}
+  .rows{border-top:1px solid var(--ink)}
+  .rowv{display:grid;grid-template-columns:56px 220px 1fr auto auto;gap:28px;align-items:center;padding:18px 0;border-bottom:1px solid var(--ink);transition:background .2s}
+  .rowv:hover{background:var(--paper-2)}
+  .rowv .i{font:400 22px/1 var(--disp);color:var(--muted)}
+  .rowv .ph{aspect-ratio:16/10;border-radius:4px;overflow:hidden}
+  .rowv .ph img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+  .rowv:hover .ph img{transform:scale(1.05)}
+  .rowv h3{font:400 clamp(28px,3vw,42px)/1 var(--disp);text-transform:uppercase;margin:0}
+  .rowv .meta{margin-top:8px;color:var(--muted);font-weight:600;font-size:14px;display:flex;gap:14px;flex-wrap:wrap}
+  .rowv .st{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:6px 10px;border-radius:3px;border:1.5px solid var(--ink);white-space:nowrap}
+  .rowv .st.stock{background:var(--ink);color:var(--paper)}
+  .rowv .p{text-align:right;min-width:170px}
+  .rowv .p b{font:400 36px/1 var(--disp)}
+  .rowv .p small{display:block;font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-top:4px}
+
+  /* wall */
+  .wall{background:var(--ink);color:var(--paper);border-top:0}
+  .wall .sec-head p{color:#a29d94}
+  .flyers{columns:4 240px;column-gap:16px}
+  .flyers button{display:block;width:100%;margin:0 0 16px;padding:0;border:0;background:none;cursor:zoom-in;border-radius:6px;overflow:hidden;break-inside:avoid;transition:transform .25s}
+  .flyers button:hover{transform:translateY(-4px) rotate(-.4deg)}
+  .flyers img{width:100%}
+  .fb-link{margin-top:28px;display:inline-flex;gap:10px;align-items:center;font-weight:700;text-transform:uppercase;letter-spacing:.05em;border-bottom:2px solid var(--red);padding-bottom:4px}
+  dialog{border:0;padding:0;background:transparent;max-width:min(560px,92vw)}
+  dialog::backdrop{background:rgba(0,0,0,.85)}
+  dialog img{max-height:88vh;width:auto;border-radius:6px}
+
+  /* 3 messages */
+  .msgs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .msg{background:#fff;border:2px solid var(--ink);border-radius:6px;padding:26px;position:relative}
+  .msg .n{font:400 80px/0.8 var(--disp);color:var(--red)}
+  .msg h3{font:400 30px/1 var(--disp);text-transform:uppercase;margin:18px 0 10px}
+  .msg p{margin:0;color:var(--muted);font-weight:500}
+  .bubble{margin-top:18px;background:#dcf8c6;border-radius:10px 10px 10px 2px;padding:10px 12px;font-size:14px;color:#1b1b1b;max-width:92%}
+  .bubble.me{margin-left:auto;background:#f1f1f1;border-radius:10px 10px 2px 10px}
+
+  /* final */
+  .final{padding:96px 0 120px;text-align:center;border-top:2px solid var(--ink)}
+  .final h2{font-size:clamp(54px,10vw,150px)}
+  .final h2 span{color:var(--red)}
+  .final .ctas{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:36px}
+  .final p{color:var(--muted);font-weight:600;margin-top:22px}
+  footer{border-top:2px solid var(--ink);padding:26px 0;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.05em}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  .mbar{display:none}
+
+  @media (max-width:1000px){
+    header nav{display:none}
+    .hero-grid{grid-template-columns:1fr}
+    .hero-photo{min-height:300px}
+    .rowv{grid-template-columns:150px 1fr auto;gap:16px}
+    .rowv .i,.rowv .st{display:none}
+    .msgs{grid-template-columns:1fr}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 16px}
+    header .btn{display:none}
+    .hero{padding-top:24px}
+    .hero-top span:last-child{display:none}
+    .rowv{grid-template-columns:110px 1fr;row-gap:8px}
+    .rowv .p{grid-column:2;text-align:left;min-width:0}
+    .rowv .p b{font-size:28px}
+    .flyers{columns:2;column-gap:10px}
+    .flyers button{margin-bottom:10px}
+    section.block{padding:64px 0}
+    body{padding-bottom:72px}
+    .mbar{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 12px calc(10px + env(safe-area-inset-bottom));background:var(--paper);border-top:2px solid var(--ink)}
+    .mbar .btn{height:48px;font-size:13px}
+  }
+  @media (prefers-reduced-motion:reduce){.ticker .track{animation:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true"><div class="track" id="ticker"></div></div>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#"><img src="assets/img/car-silhouette.png" alt=""><b>NIR <i>EXPORT</i></b></a>
+    <nav><a href="#arrivages">Arrivages</a><a href="#annonces">Annonces</a><a href="#reserver">Réserver</a></nav>
+    <a class="btn btn-wa" href="#" data-wa><svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm0-21.6A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.7A11.8 11.8 0 1 0 12 .2z"/></svg>WhatsApp</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-top"><span class="live">Réservable maintenant</span><span>Prix HT · Dossier export inclus</span></div>
+      <h1 class="disp">Prochain <span class="o">arrivage</span></h1>
+      <div class="hero-grid">
+        <div class="hero-photo">
+          <img src="assets/img/clio5-alpine.jpg" alt="Renault Clio 5 esprit Alpine gris schiste">
+          <span class="stamp">Gris Schiste</span>
+        </div>
+        <div class="hero-side">
+          <div>
+            <h2 class="disp">Renault Clio 5<br>Esprit Alpine</h2>
+            <div class="sub">Finition sportive · Sellerie Alpine</div>
+          </div>
+          <dl class="specs" style="margin:0">
+            <div><dt>Année</dt><dd>2025</dd></div>
+            <div><dt>Kilométrage</dt><dd>43 000 km</dd></div>
+          </dl>
+          <div class="price-big"><div><b>13 950 €</b><small>Hors taxes · dossier export inclus</small></div><span>HT</span></div>
+          <div class="ctas">
+            <a class="btn btn-wa" href="#" data-wa>Je la réserve</a>
+            <a class="btn btn-out" href="#arrivages">Tous les véhicules</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="arrivages">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp">Le parc</h2>
+        <p>Disponibles tout de suite ou en route. Un message suffit pour bloquer un véhicule.</p>
+      </div>
+      <div class="rows" id="rows"></div>
+    </div>
+  </section>
+
+  <section class="block wall" id="annonces">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp">Les annonces</h2>
+        <p>Les visuels publiés sur Facebook, réunis au même endroit. Cliquez pour agrandir.</p>
+      </div>
+      <div class="flyers" id="flyers"></div>
+      <a class="fb-link" href="#" data-fb>Suivre NIR Export sur Facebook →</a>
+    </div>
+  </section>
+
+  <section class="block" id="reserver">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="disp">Réserver en<br>3 messages</h2>
+        <p>Pas de formulaire compliqué. Tout se passe sur WhatsApp, avec un interlocuteur unique.</p>
+      </div>
+      <div class="msgs">
+        <div class="msg"><div class="n">1</div><h3>Le véhicule</h3><p>Vous envoyez le modèle qui vous intéresse.</p>
+          <div class="bubble me">Bonjour, l'Arkana blanche est toujours dispo ?</div></div>
+        <div class="msg"><div class="n">2</div><h3>Les détails</h3><p>On vous envoie photos, vidéo et infos du dossier export.</p>
+          <div class="bubble">Oui ! Je vous envoie la vidéo et le détail du dossier 👍</div></div>
+        <div class="msg"><div class="n">3</div><h3>La réservation</h3><p>Le véhicule est bloqué à votre nom jusqu'à la remise.</p>
+          <div class="bubble me">Parfait, je la réserve.</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="wrap">
+      <h2 class="disp">Roulez en<br><span>toute confiance</span></h2>
+      <div class="ctas">
+        <a class="btn btn-wa" href="#" data-wa>WhatsApp</a>
+        <a class="btn btn-ink" href="tel:+33614933218">+33 6 14 93 32 18</a>
+        <a class="btn btn-out" href="mailto:sasnirauto@gmail.com">sasnirauto@gmail.com</a>
+      </div>
+      <p>Vente de véhicules · professionnels & particuliers</p>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 NIR Export</span><a href="#" data-fb>Facebook</a></div></footer>
+
+<div class="mbar"><a class="btn btn-wa" href="#" data-wa>WhatsApp</a><a class="btn btn-ink" href="tel:+33614933218">Appeler</a></div>
+
+<dialog id="dlg"><img alt=""></dialog>
+
+<script src="assets/data.js"></script>
+<script>
+  const N = window.NIR;
+  document.querySelectorAll('[data-wa]').forEach(a => { a.href = N.whatsapp; a.target = '_blank'; a.rel = 'noopener'; });
+  document.querySelectorAll('[data-fb]').forEach(a => { a.href = N.facebook; a.target = '_blank'; a.rel = 'noopener'; });
+  const items = N.vehicles.map(v => `<span>${v.model} ${v.trim} — ${N.fmtPrice(v.price)} HT</span>`).join('');
+  document.getElementById('ticker').innerHTML = items + items;
+  document.getElementById('rows').innerHTML = N.vehicles.map((v, i) => `
+    <a class="rowv" href="${N.whatsapp}?text=${encodeURIComponent(`Bonjour, je suis intéressé(e) par le ${v.brand} ${v.model} ${v.trim} à ${N.fmtPrice(v.price)} HT.`)}" target="_blank" rel="noopener">
+      <div class="i">${String(i + 1).padStart(2, '0')}</div>
+      <div class="ph"><img src="${v.img}" alt="${v.brand} ${v.model} ${v.trim}" loading="lazy"></div>
+      <div><h3>${v.model} ${v.trim}</h3>
+        <div class="meta">${v.year ? `<span>${v.year}</span>` : ''}<span>${N.fmtKm(v.km)}</span>${v.engine ? `<span>${v.engine}</span>` : ''}<span>${v.color}</span></div></div>
+      <span class="st ${v.status}">${v.status === 'stock' ? 'Disponible' : 'En arrivage'}</span>
+      <div class="p"><b>${N.fmtPrice(v.price)}</b><small>HT · dossier inclus</small></div>
+    </a>`).join('');
+  const dlg = document.getElementById('dlg');
+  document.getElementById('flyers').innerHTML = N.vehicles.map(v => `<button data-src="${v.flyer}" aria-label="Agrandir l'annonce ${v.model}"><img src="${v.flyer}" alt="Annonce ${v.brand} ${v.model} ${v.trim}"></button>`).join('');
+  document.getElementById('flyers').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    dlg.querySelector('img').src = b.dataset.src; dlg.showModal();
+  });
+  dlg.addEventListener('click', () => dlg.close());
+</script>
+</body>
+</html>
