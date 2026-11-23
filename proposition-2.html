@@ -87,6 +87,7 @@
   .card .st{position:absolute;top:12px;left:12px;font:600 12px/1 var(--sans);padding:7px 10px;border-radius:7px;background:#fff;color:var(--ink)}
   .card .st.stock{background:#0f9d58;color:#fff}
   .card .st.arrivage{background:#ffcc00;color:#111}
+  .card .nb{position:absolute;right:12px;bottom:12px;font:600 12px/1 var(--sans);padding:6px 9px;border-radius:7px;background:rgba(0,0,0,.65);color:#fff}
   .card .body{padding:18px 20px 20px}
   .card .t{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
   .card h3{font-size:21px;font-stretch:110%}
@@ -198,11 +199,11 @@
           <button class="btn btn-red" type="submit">Rechercher</button>
         </form>
       </div>
-      <div class="hero-photo">
+      <a class="hero-photo" href="vehicule.html?id=arkana-rouge&s=2" style="display:block">
         <img src="assets/img/arkana-rouge.jpg" alt="Renault Arkana Techno Plus rouge">
         <div class="chip b"><b>Prochain arrivage</b>Réservable dès maintenant</div>
         <div class="chip a"><b>13 500 € HT</b>Arkana Techno Plus · 1.3 TCe 140 ch · Auto</div>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -317,8 +318,8 @@
     $('count').textContent = `${list.length} véhicule${list.length > 1 ? 's' : ''}`;
     $('grid').innerHTML = list.length ? list.map(v => `
       <article class="card">
-        <div class="ph"><img src="${v.img}" alt="${v.brand} ${v.model} ${v.trim}" loading="lazy">
-          <span class="st ${v.status}">${v.status === 'stock' ? 'Disponible' : 'Prochain arrivage'}</span></div>
+        <a class="ph" href="${N.link(v, 2)}" style="display:block"><img src="${v.img}" alt="${v.brand} ${v.model} ${v.trim}" loading="lazy">
+          <span class="st ${v.status}">${v.status === 'stock' ? 'Disponible' : 'Prochain arrivage'}</span><span class="nb">📷 ${v.gallery.length + 1}</span></a>
         <div class="body">
           <div class="t">
             <div><h3>${v.brand} ${v.model}</h3><div class="sub">${v.trim}${v.engine ? ' · ' + v.engine : ''}</div></div>
@@ -330,7 +331,7 @@
             <div><dt>Km</dt><dd>${N.fmtKm(v.km).replace(' km','')}</dd></div>
             <div><dt>Couleur</dt><dd>${v.color}</dd></div>
           </dl>
-          <div class="acts"><a class="btn btn-line" href="${v.flyer}" target="_blank">Voir l'annonce</a><a class="btn btn-ink" href="#contact">Réserver</a></div>
+          <div class="acts"><a class="btn btn-line" href="${N.link(v, 2)}">Voir la fiche</a><a class="btn btn-ink" href="${N.waText(v)}" target="_blank" rel="noopener">Réserver</a></div>
         </div>
       </article>`).join('') : `<div class="empty">Aucun véhicule ne correspond. <a class="red" href="#contact">Dites-nous ce que vous cherchez →</a></div>`;
   }

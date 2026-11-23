@@ -33,7 +33,9 @@
   .sw i{width:22px;height:22px;border-radius:50%;border:1px solid #333}
   .go{margin-top:8px;font-weight:600;font-size:14px}
   footer{margin-top:56px;color:var(--muted);font-size:14px;border-top:1px solid var(--line);padding-top:24px}
-  @media (max-width:900px){.grid{grid-template-columns:1fr}}
+  .sec{font-size:26px;margin:64px 0 22px;letter-spacing:-.01em}
+  .grid.two{grid-template-columns:1fr 1fr}
+  @media (max-width:900px){.grid,.grid.two{grid-template-columns:1fr}}
   @media (max-width:620px){.wrap{padding:40px 16px 64px}}
 </style>
 </head>
@@ -63,6 +65,21 @@
         <p>Style affiche, très visible sur téléphone. Met en avant le prochain arrivage, vos annonces Facebook et la réservation sur WhatsApp.</p>
         <div class="sw"><i style="background:#f2efe9"></i><i style="background:#0d0d0d"></i><i style="background:#e3141c"></i></div>
         <span class="go">Voir la maquette →</span></div>
+    </a>
+  </div>
+  <h2 class="sec">Et aussi</h2>
+  <div class="grid two">
+    <a class="card wide" href="vehicule.html?id=arkana-blanc&s=2">
+      <div class="shot"><img src="assets/previews/fiche.jpg" alt="Aperçu fiche véhicule"></div>
+      <div class="body"><span class="num">Fiche véhicule</span><h2>Toutes les photos de chaque voiture</h2>
+        <p>En cliquant sur un véhicule : galerie photos (extérieur, intérieur, compteur, l'annonce), plein écran, caractéristiques, équipements et réservation WhatsApp en un clic. Elle prend le style de la proposition choisie.</p>
+        <span class="go">Voir un exemple →</span></div>
+    </a>
+    <a class="card wide" href="admin.html">
+      <div class="shot"><img src="assets/previews/admin.jpg" alt="Aperçu espace admin"></div>
+      <div class="body"><span class="num">Espace admin</span><h2>Gérer le site sans technicien</h2>
+        <p>Ajouter un véhicule avec ses photos, changer le prix ou le statut (disponible, arrivage, réservé, vendu) et suivre les demandes clients. Les données de la démo sont des exemples.</p>
+        <span class="go">Ouvrir la démo →</span></div>
     </a>
   </div>
   <footer>Maquettes de présentation · contenus et prix repris des annonces Facebook de NIR Export, à valider.</footer>

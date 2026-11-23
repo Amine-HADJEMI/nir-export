@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fiche véhicule · NIR Export</title>
+<meta name="description" content="Fiche véhicule NIR Export : photos, prix HT, caractéristiques et équipements.">
+<link rel="icon" href="assets/img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wdth,wght@100..125,500..900&family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;1,6..96,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ---------- 3 thèmes, un par proposition ---------- */
+  body.t1{--bg:#070707;--surface:#111;--surface-2:#171717;--text:#f4f1ec;--muted:#9a948c;--line:#262626;--accent:#e1121b;--on-accent:#fff;
+    --head:'Bodoni Moda',Georgia,serif;--head-w:500;--head-t:none;--head-ls:-.01em;--r:18px;--br:999px;--bw:1px;--thumb-on:#f4f1ec}
+  body.t2{--bg:#ffffff;--surface:#fff;--surface-2:#f5f5f3;--text:#111;--muted:#6f6f6b;--line:#e7e6e2;--accent:#d90b14;--on-accent:#fff;
+    --head:'Archivo',system-ui,sans-serif;--head-w:800;--head-t:none;--head-ls:-.02em;--r:14px;--br:10px;--bw:1px;--thumb-on:#111}
+  body.t3{--bg:#f2efe9;--surface:#fff;--surface-2:#e8e4dc;--text:#0d0d0d;--muted:#6b675f;--line:#0d0d0d;--accent:#e3141c;--on-accent:#fff;
+    --head:'Anton',Impact,sans-serif;--head-w:400;--head-t:uppercase;--head-ls:.005em;--r:6px;--br:4px;--bw:2px;--thumb-on:#e3141c}
+  body.t2 h1,body.t2 h2,body.t2 .price b{font-stretch:115%}
+
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.6 'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+  h1,h2,h3{font-family:var(--head);font-weight:var(--head-w);text-transform:var(--head-t);letter-spacing:var(--head-ls);margin:0;line-height:1.05}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:52px;padding:0 22px;border-radius:var(--br);font:600 15px/1 'Inter',sans-serif;border:var(--bw) solid transparent;cursor:pointer;transition:background .2s,border-color .2s,transform .15s;text-align:center}
+  .btn:active{transform:scale(.98)}
+  .btn svg{width:19px;height:19px;flex:none}
+  .btn-wa{background:#1fb855;color:#fff}.btn-wa:hover{background:#18a149}
+  .btn-acc{background:var(--accent);color:var(--on-accent)}
+  .btn-line{border-color:var(--line);background:transparent}
+  body.t1 .btn-line{border-color:#3a3a3a}.btn-line:hover{border-color:var(--text)}
+
+  header{position:sticky;top:0;z-index:30;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);border-bottom:var(--bw) solid var(--line)}
+  body.t1 header{border-bottom-color:#262626}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px;gap:16px}
+  .back{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:600;color:var(--muted)}
+  .back:hover{color:var(--text)}
+  .logo{display:flex;align-items:center;gap:10px;position:absolute;left:50%;transform:translateX(-50%)}
+  .logo img{height:24px}
+  .logo span{font:var(--head-w) 22px/1 var(--head);text-transform:uppercase;letter-spacing:.02em}
+  body.t1 .logo span i{font-style:italic}
+  .logo span i{font-style:normal;color:var(--accent)}
+  .nav .btn{height:42px;font-size:14px;padding:0 16px}
+
+  .crumbs{font-size:13px;color:var(--muted);padding:22px 0 18px}
+  .crumbs a:hover{color:var(--text)}
+
+  .top{display:grid;grid-template-columns:1.45fr 1fr;gap:40px;align-items:start}
+
+  /* galerie */
+  .stage{position:relative;border-radius:var(--r);overflow:hidden;background:var(--surface-2);aspect-ratio:16/10.5;border:var(--bw) solid var(--line)}
+  body.t1 .stage,body.t2 .stage{border-color:transparent}
+  .stage img{width:100%;height:100%;object-fit:cover;cursor:zoom-in;transition:opacity .25s}
+  .stage .arw{position:absolute;top:50%;translate:0 -50%;width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:#111;display:grid;place-items:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.25);transition:transform .15s}
+  .stage .arw:active{transform:scale(.94)}
+  .stage .prev{left:14px}.stage .next{right:14px}
+  .stage .arw svg{width:20px;height:20px}
+  .stage .cnt{position:absolute;right:14px;bottom:14px;background:rgba(0,0,0,.7);color:#fff;font-size:13px;font-weight:600;padding:6px 10px;border-radius:999px}
+  .stage .full{position:absolute;left:14px;bottom:14px;background:rgba(0,0,0,.7);color:#fff;border:0;font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;cursor:pointer}
+  .stage .st{position:absolute;left:14px;top:14px;font:700 12px/1 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;padding:8px 11px;border-radius:999px;background:var(--accent);color:#fff}
+  .stage .st.arrivage{background:#111}
+  body.t2 .stage .st.arrivage{background:#ffcc00;color:#111}
+  .thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:10px}
+  .thumbs button{padding:0;border:2px solid transparent;border-radius:calc(var(--r) * .6);overflow:hidden;aspect-ratio:4/3;cursor:pointer;background:var(--surface-2);opacity:.6;transition:opacity .2s,border-color .2s}
+  .thumbs button:hover{opacity:.9}
+  .thumbs button[aria-current=true]{opacity:1;border-color:var(--thumb-on)}
+  .thumbs img{width:100%;height:100%;object-fit:cover}
+  .thumbs .fl{position:relative}
+  .thumbs .fl span{position:absolute;inset:auto 0 0 0;background:rgba(0,0,0,.72);color:#fff;font-size:11px;font-weight:600;padding:4px}
+
+  /* panneau */
+  .panel{position:sticky;top:92px;background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--r);padding:28px}
+  body.t1 .panel{border-color:#262626}
+  .panel .brand{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+  .panel h1{font-size:clamp(32px,3.2vw,46px);margin:8px 0 6px}
+  .panel .sub{color:var(--muted);font-size:15px}
+  .price{display:flex;align-items:baseline;gap:8px;margin:22px 0 4px}
+  .price b{font:var(--head-w) clamp(38px,3.6vw,52px)/1 var(--head);color:var(--accent)}
+  .price span{font-weight:700}
+  .inc{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#0f8a4c;background:rgba(31,184,85,.12);padding:5px 10px;border-radius:6px}
+  .specs{display:grid;grid-template-columns:1fr 1fr;margin:22px 0;border-top:1px solid var(--line)}
+  body.t1 .specs,body.t1 .specs div{border-color:#262626}
+  .specs div{padding:12px 0;border-bottom:1px solid var(--line)}
+  .specs div:nth-child(odd){padding-right:12px}
+  .specs dt{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+  .specs dd{margin:2px 0 0;font-weight:600}
+  .ctas{display:grid;gap:8px}
+  .ctas .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .reass{display:grid;gap:8px;margin-top:20px;font-size:14px;color:var(--muted)}
+  .reass span{display:flex;gap:10px;align-items:center}
+  .reass svg{width:18px;height:18px;flex:none;stroke:var(--accent);fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+
+  /* contenu */
+  section.blk{padding:72px 0 0}
+  .blk h2{font-size:clamp(28px,3vw,40px);margin-bottom:22px}
+  .two{display:grid;grid-template-columns:1.45fr 1fr;gap:40px}
+  .intro{font-size:19px;line-height:1.55;margin:0 0 26px}
+  .feats{display:grid;grid-template-columns:1fr 1fr;gap:10px;list-style:none;padding:0;margin:0}
+  .feats li{display:flex;gap:12px;align-items:center;background:var(--surface);border:var(--bw) solid var(--line);border-radius:calc(var(--r) * .7);padding:14px 16px;font-weight:500}
+  body.t1 .feats li{border-color:#262626}
+  .feats li::before{content:"";flex:none;width:22px;height:22px;border-radius:50%;background:var(--accent) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3'%3E%3Cpath d='M5 12l5 5 9-10'/%3E%3C/svg%3E") center/13px no-repeat}
+  .included{background:var(--text);color:var(--bg);border-radius:var(--r);padding:28px}
+  .included h3{font-size:24px;margin-bottom:16px}
+  .included ol{margin:0;padding:0;list-style:none;display:grid;gap:14px;counter-reset:i}
+  .included li{display:flex;gap:12px;counter-increment:i;opacity:.9}
+  .included li::before{content:counter(i);flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--accent);color:var(--accent);display:grid;place-items:center;font-size:13px;font-weight:700}
+  .flyer{display:grid;grid-template-columns:320px 1fr;gap:36px;align-items:center;background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--r);padding:28px}
+  body.t1 .flyer{border-color:#262626}
+  .flyer img{border-radius:calc(var(--r) * .6);cursor:zoom-in;box-shadow:0 14px 40px rgba(0,0,0,.25)}
+  .flyer p{color:var(--muted);margin:10px 0 22px;max-width:460px}
+  .others{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .oc{background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--r);overflow:hidden;transition:transform .25s}
+  body.t1 .oc{border-color:#262626}
+  .oc:hover{transform:translateY(-3px)}
+  .oc img{aspect-ratio:16/10;object-fit:cover;width:100%}
+  .oc div{padding:14px 16px;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+  .oc b{font:var(--head-w) 19px/1.1 var(--head);text-transform:var(--head-t)}
+  .oc span{color:var(--accent);font-weight:700;white-space:nowrap}
+  footer{margin-top:88px;border-top:var(--bw) solid var(--line);padding:28px 0;color:var(--muted);font-size:14px}
+  body.t1 footer{border-color:#262626}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  /* visionneuse */
+  dialog{border:0;padding:0;background:transparent;width:100vw;height:100vh;max-width:none;max-height:none}
+  dialog::backdrop{background:rgba(0,0,0,.94)}
+  .lb{position:fixed;inset:0;display:grid;place-items:center;padding:56px 72px}
+  .lb img{width:100%;height:100%;object-fit:contain}
+  .lb .arw,.lb .x{position:absolute;width:52px;height:52px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer}
+  .lb .arw:hover,.lb .x:hover{background:rgba(255,255,255,.24)}
+  .lb .arw svg,.lb .x svg{width:22px;height:22px}
+  .lb .prev{left:14px;top:50%;translate:0 -50%}.lb .next{right:14px;top:50%;translate:0 -50%}
+  .lb .x{right:14px;top:14px}
+  .lb .cnt{position:absolute;bottom:18px;left:50%;translate:-50% 0;color:#ddd;font-size:14px;font-weight:600}
+
+  .mbar{display:none}
+
+  @media (max-width:980px){
+    .top,.two{grid-template-columns:1fr}
+    .panel{position:static}
+    .others{grid-template-columns:1fr 1fr}
+    .flyer{grid-template-columns:200px 1fr}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 16px}
+    .logo{display:none}
+    .nav .btn span{display:none}
+    .stage{border-radius:calc(var(--r) * .7)}
+    .stage .arw{width:40px;height:40px}
+    .thumbs{grid-template-columns:repeat(5,1fr);gap:6px}
+    .panel{padding:20px}
+    .feats,.others{grid-template-columns:1fr}
+    .flyer{grid-template-columns:1fr;padding:20px}
+    .flyer img{max-width:260px}
+    .lb{padding:56px 8px}
+    .lb .arw{top:auto;bottom:10px;translate:none}
+    body{padding-bottom:78px}
+    .mbar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:var(--bw) solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom))}
+    body.t1 .mbar{border-color:#262626}
+    .mbar div{flex:1;line-height:1.2}
+    .mbar b{display:block;font:var(--head-w) 22px/1 var(--head);color:var(--accent)}
+    .mbar small{color:var(--muted);font-size:12px}
+    .mbar .btn{height:48px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body class="t1">
+
+<header>
+  <div class="wrap nav">
+    <a class="back" id="back" href="index.html"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Tous les véhicules</a>
+    <a class="logo" id="home" href="index.html"><img src="assets/img/car-silhouette.png" alt=""><span>NIR <i>Export</i></span></a>
+    <a class="btn btn-wa" id="waTop" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.6-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2.1-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5 2.5 1 3 .8 3.6.7.6-.1 1.8-.7 2-1.5.3-.7.3-1.3.2-1.5-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zm0-21.6A11.8 11.8 0 0 0 1.8 17.9L.1 24l6.3-1.7A11.8 11.8 0 1 0 12 .2z"/></svg><span>WhatsApp</span></a>
+  </div>
+</header>
+
+<main class="wrap" id="app"></main>
+
+<footer><div class="wrap"><span>© 2026 NIR Export · Vente de véhicules professionnels & particuliers</span><span>+33 6 14 93 32 18 · sasnirauto@gmail.com</span></div></footer>
+
+<dialog id="lb">
+  <div class="lb">
+    <img id="lbImg" alt="">
+    <button class="arw prev" id="lbPrev" aria-label="Photo précédente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="arw next" id="lbNext" aria-label="Photo suivante"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button>
+    <button class="x" id="lbClose" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <div class="cnt" id="lbCnt"></div>
+  </div>
+</dialog>
+
+<script src="assets/data.js"></script>
+<script>
+  const N = window.NIR;
+  const q = new URLSearchParams(location.search);
+  const s = ['1', '2', '3'].includes(q.get('s')) ? q.get('s') : '1';
+  document.body.className = 't' + s;
+  const v = N.vehicles.find(x => x.id === q.get('id')) || N.vehicles[0];
+  const listAnchor = { 1: '#vehicules', 2: '#catalogue', 3: '#arrivages' }[s];
+  document.getElementById('back').href = `proposition-${s}.html${listAnchor}`;
+  document.getElementById('home').href = `proposition-${s}.html`;
+  document.getElementById('waTop').href = N.waText(v);
+  document.title = `${v.brand} ${v.model} ${v.trim} · ${N.fmtPrice(v.price)} HT · NIR Export`;
+
+  // photos + l'annonce Facebook en dernière position
+  const photos = [...v.gallery, v.flyer];
+  const name = `${v.brand} ${v.model} ${v.trim}`;
+  const specs = [
+    ['Année', v.year], ['Kilométrage', N.fmtKm(v.km)], ['Moteur', v.engine],
+    ['Boîte', v.gearbox], ['Couleur', v.color], ['Carburant', v.fuel],
+  ].filter(([, val]) => val);
+  const morePhotos = `https://wa.me/33614933218?text=${encodeURIComponent(`Bonjour, pouvez-vous m'envoyer plus de photos et une vidéo du ${name} ?`)}`;
+  const icon = d => `<svg viewBox="0 0 24 24">${d}</svg>`;
+  const chev = dir => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="${dir === 'l' ? 'M15 18l-6-6 6-6' : 'M9 6l6 6-6 6'}"/></svg>`;
+  const others = N.vehicles.filter(x => x.id !== v.id).slice(0, 3);
+
+  document.getElementById('app').innerHTML = `
+    <nav class="crumbs"><a href="proposition-${s}.html">Accueil</a> / <a href="proposition-${s}.html${listAnchor}">Véhicules</a> / ${name}</nav>
+    <div class="top">
+      <div>
+        <div class="stage">
+          <img id="main" src="${photos[0]}" alt="${name}, photo 1">
+          <span class="st ${v.status}">${v.status === 'stock' ? 'Disponible' : 'Prochain arrivage'}</span>
+          <button class="arw prev" id="prev" aria-label="Photo précédente">${chev('l')}</button>
+          <button class="arw next" id="next" aria-label="Photo suivante">${chev('r')}</button>
+          <button class="full" id="full">⤢ Plein écran</button>
+          <span class="cnt" id="cnt"></span>
+        </div>
+        <div class="thumbs" id="thumbs">
+          ${photos.map((p, i) => `<button aria-label="Photo ${i + 1}" class="${p === v.flyer ? 'fl' : ''}"><img src="${p}" alt="">${p === v.flyer ? '<span>Annonce</span>' : ''}</button>`).join('')}
+        </div>
+      </div>
+      <aside class="panel">
+        <div class="brand">${v.brand}</div>
+        <h1>${v.model} ${v.trim}</h1>
+        <div class="sub">${[v.year, N.fmtKm(v.km), v.engine, v.color].filter(Boolean).join(' · ')}</div>
+        <div class="price"><b>${N.fmtPrice(v.price)}</b><span>HT</span></div>
+        <span class="inc">✓ Frais de dossier export inclus</span>
+        <dl class="specs">${specs.map(([k, val]) => `<div><dt>${k}</dt><dd>${val}</dd></div>`).join('')}</dl>
+        <div class="ctas">
+          <a class="btn btn-wa" href="${N.waText(v)}" target="_blank" rel="noopener">${v.status === 'stock' ? 'Je suis intéressé(e)' : 'Réserver ce véhicule'} sur WhatsApp</a>
+          <div class="row">
+            <a class="btn btn-line" href="tel:+33614933218">Appeler</a>
+            <a class="btn btn-line" href="${morePhotos}" target="_blank" rel="noopener">+ de photos / vidéo</a>
+          </div>
+        </div>
+        <div class="reass">
+          <span>${icon('<path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M8.5 12l2.5 2.5 4.5-5"/>')}Véhicule contrôlé avant la remise</span>
+          <span>${icon('<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>')}Dossier export préparé par NIR Export</span>
+          <span>${icon('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>')}${v.status === 'stock' ? 'Disponible tout de suite' : 'Réservable avant son arrivée'}</span>
+        </div>
+      </aside>
+    </div>
+
+    <section class="blk two">
+      <div>
+        <h2>Le véhicule</h2>
+        <p class="intro">${v.intro}</p>
+        <ul class="feats">${v.features.map(f => `<li>${f}</li>`).join('')}</ul>
+      </div>
+      <div class="included">
+        <h3>Comment ça se passe</h3>
+        <ol>
+          <li>Vous nous écrivez sur WhatsApp ou par téléphone.</li>
+          <li>On vous envoie photos, vidéo et détails du dossier export.</li>
+          <li>Le véhicule est réservé à votre nom.</li>
+          <li>Remise du véhicule avec son dossier complet.</li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="blk">
+      <div class="flyer">
+        <img id="flyerImg" src="${v.flyer}" alt="Annonce ${name}">
+        <div>
+          <h2>L'annonce</h2>
+          <p>Le visuel publié sur la page Facebook de NIR Export. Partagez-le facilement avec vos proches.</p>
+          <a class="btn btn-acc" href="${N.facebook}" target="_blank" rel="noopener">Voir sur Facebook</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="blk">
+      <h2>Vous aimerez aussi</h2>
+      <div class="others">${others.map(o => `
+        <a class="oc" href="${N.link(o, s)}"><img src="${o.img}" alt="${o.brand} ${o.model} ${o.trim}" loading="lazy">
+          <div><b>${o.model} ${o.trim}</b><span>${N.fmtPrice(o.price)} HT</span></div></a>`).join('')}
+      </div>
+    </section>
+
+    <div class="mbar"><div><b>${N.fmtPrice(v.price)} HT</b><small>Dossier export inclus</small></div>
+      <a class="btn btn-wa" href="${N.waText(v)}" target="_blank" rel="noopener">WhatsApp</a></div>`;
+
+  // galerie
+  let i = 0;
+  const main = document.getElementById('main'), thumbs = [...document.querySelectorAll('#thumbs button')];
+  const lb = document.getElementById('lb'), lbImg = document.getElementById('lbImg');
+  function show(n) {
+    i = (n + photos.length) % photos.length;
+    main.style.opacity = .4;
+    main.src = photos[i]; main.alt = `${name}, photo ${i + 1}`;
+    main.onload = () => main.style.opacity = 1;
+    document.getElementById('cnt').textContent = `${i + 1} / ${photos.length}`;
+    thumbs.forEach((t, k) => t.setAttribute('aria-current', k === i));
+    if (lb.open) { lbImg.src = photos[i]; document.getElementById('lbCnt').textContent = `${i + 1} / ${photos.length}`; }
+  }
+  thumbs.forEach((t, k) => t.addEventListener('click', () => show(k)));
+  document.getElementById('prev').onclick = () => show(i - 1);
+  document.getElementById('next').onclick = () => show(i + 1);
+  const open = n => { lb.showModal(); show(n); };
+  main.onclick = () => open(i);
+  document.getElementById('full').onclick = () => open(i);
+  document.getElementById('flyerImg').onclick = () => open(photos.length - 1);
+  document.getElementById('lbPrev').onclick = () => show(i - 1);
+  document.getElementById('lbNext').onclick = () => show(i + 1);
+  document.getElementById('lbClose').onclick = () => lb.close();
+  lb.addEventListener('click', e => { if (e.target.classList.contains('lb')) lb.close(); });
+  document.addEventListener('keydown', e => { if (e.key === 'ArrowLeft') show(i - 1); if (e.key === 'ArrowRight') show(i + 1); });
+  // balayage sur téléphone
+  let x0 = null;
+  [main, lbImg].forEach(el => {
+    el.addEventListener('touchstart', e => x0 = e.touches[0].clientX, { passive: true });
+    el.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
+  });
+  show(0);
+</script>
+</body>
+</html>

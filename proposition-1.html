@@ -81,6 +81,7 @@
   .card:hover .ph img{transform:scale(1.04)}
   .card .st{position:absolute;top:14px;left:14px;font:600 11px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase;padding:7px 10px;border-radius:999px;background:rgba(0,0,0,.7);backdrop-filter:blur(6px)}
   .card .st.stock{background:var(--red)}
+  .card .nb{position:absolute;right:14px;bottom:14px;font:600 12px/1 var(--sans);padding:7px 10px;border-radius:999px;background:rgba(0,0,0,.7)}
   .card .body{padding:20px 22px 22px}
   .card h3{font-size:25px;line-height:1.1}
   .card h3 small{display:block;font:500 13px var(--sans);color:var(--muted);margin-top:6px;letter-spacing:0}
@@ -89,7 +90,8 @@
   .card .row{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--line);padding-top:16px}
   .card .row b{font:500 24px/1 var(--serif)}
   .card .row b small{font:500 12px var(--sans);color:var(--muted);margin-left:4px}
-  .card .row a{font-size:13px;font-weight:600;color:var(--red)}
+  .card .row .more{font-size:13px;font-weight:600;color:var(--red)}
+  .card .count{font-size:12px;color:#cfc9c0}
   .card.cta{display:flex;flex-direction:column;justify-content:space-between;padding:28px;background:linear-gradient(160deg,#1a0506,#0c0c0c 60%)}
   .card.cta h3{font-size:30px}
   .card.cta p{color:var(--muted)}
@@ -179,14 +181,14 @@
             <a class="btn btn-ghost" href="#" data-wa>Écrire sur WhatsApp</a>
           </div>
         </div>
-        <div class="feature">
+        <a class="feature" href="vehicule.html?id=captur&s=1" style="display:block">
           <span class="badge">Nouvel arrivage</span>
           <img src="assets/img/captur-techno.jpg" alt="Renault Captur Techno 2025 gris">
           <div class="tag">
             <div><b>Renault Captur Techno</b><span>2025 · 49 000 km · Hybride</span></div>
             <div class="price">14 960 € HT</div>
           </div>
-        </div>
+        </a>
       </div>
       <div class="facts">
         <div><b>HT</b><span><strong>Prix hors taxes</strong>Affichés clairement, sans surprise</span></div>
@@ -290,18 +292,18 @@
   function render(f){
     const list = N.vehicles.filter(v => f === 'all' || v.status === f);
     grid.innerHTML = list.map(v => `
-      <article class="card">
+      <a class="card" href="${N.link(v, 1)}">
         <div class="ph"><img src="${v.img}" alt="${v.brand} ${v.model} ${v.trim}" loading="lazy">
-          <span class="st ${v.status}">${v.status === 'stock' ? 'Disponible' : 'Prochain arrivage'}</span></div>
+          <span class="st ${v.status}">${v.status === 'stock' ? 'Disponible' : 'Prochain arrivage'}</span><span class="nb">📷 ${v.gallery.length + 1} photos</span></div>
         <div class="body">
           <h3>${v.model} ${v.trim}<small>${v.brand}${v.engine ? ' · ' + v.engine : ''}</small></h3>
           <div class="specs">
             ${v.year ? `<span>${v.year}</span>` : ''}<span>${N.fmtKm(v.km)}</span>
             ${v.gearbox ? `<span>${v.gearbox}</span>` : ''}<span>${v.color}</span>
           </div>
-          <div class="row"><b>${N.fmtPrice(v.price)}<small>HT</small></b><a href="#contact">Réserver →</a></div>
+          <div class="row"><b>${N.fmtPrice(v.price)}<small>HT</small></b><span class="more">Voir la fiche →</span></div>
         </div>
-      </article>`).join('') + `
+      </a>`).join('') + `
       <article class="card cta">
         <div><div class="eyebrow">Sur demande</div><h3 style="margin-top:14px">Vous cherchez un autre modèle ?</h3>
         <p>Dites-nous ce que vous cherchez, on vous prévient dès qu'il arrive.</p></div>
